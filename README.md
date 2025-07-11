@@ -65,3 +65,15 @@ order-service/
 - **Spring Kafka**
 - **JUnit 5**
 - **Docker**
+
+## 🚀 CI/CD Pipeline
+
+- Code Checkout: Pulls the latest source code from the main branch of the repository.
+- JDK Setup: Installs Java 17 (Temurin distribution) to build and test the Java application.
+- Maven Dependency Cache: Caches Maven dependencies between builds for faster execution.
+- Build Permission: Grants execute permission for the Maven wrapper script (./mvnw).
+- Build: Runs ./mvnw clean install to compile the code and package it into a JAR.
+- Tests: Executes unit and integration tests to verify correctness of the business logic.
+- Docker Build: Builds a Docker image tagged as order-service:latest to prepare for containerized deployment.
+
+
