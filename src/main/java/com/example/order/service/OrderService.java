@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.example.order.model.OrderEvent;
 import com.example.order.store.EventStore;
 
+import io.micrometer.core.annotation.Counted;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -21,6 +23,8 @@ public class OrderService {
     private final EventStore store;
     private final KafkaTemplate<String, String> kafka;
 
+    @Timed(value = "order.create.time", description = "Time taken to create an order")
+    @Counted(value = "order.create.count", description = "Number of orders created")
     public UUID createOrder(Map<String, Object> data) {
         UUID id = UUID.randomUUID();
         OrderEvent event = new OrderEvent(id, "OrderCreated", data.toString(), Instant.now());
@@ -29,6 +33,8 @@ public class OrderService {
         return id;
     }
 
+    @Timed(value = "order.ship.time", description = "Time taken to ship an order")
+    @Counted(value = "order.ship.count", description = "Number of orders shipped")
     public void shipOrder(UUID id) {
         OrderEvent event = new OrderEvent(id, "OrderShipped", "", Instant.now());
         store.save(event);
