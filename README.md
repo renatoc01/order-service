@@ -76,4 +76,37 @@ order-service/
 - Tests: Executes unit and integration tests to verify correctness of the business logic.
 - Docker Build: Builds a Docker image tagged as order-service:latest to prepare for containerized deployment.
 
+## 🧪 Smoke Tests in CI/CD
 
+The CI pipeline runs automated smoke tests to verify the basic functionality of the services after deployment, including:
+
+- Creating an order (POST /orders)
+- Shipping an order (POST /orders/{id}/ship)
+- Fetching order status (GET /orders/{id})
+
+These tests use curl commands to interact with the endpoints and validate the expected responses. Logs from all services are output on test failures for quick debugging.
+
+
+## 🎯 Observability
+
+We implemented observability across all microservices (order-service, inventory-service, notification-service) using:
+
+- Spring Boot Actuator for health checks, metrics, and tracing endpoints.
+- Micrometer with Prometheus integration for metrics collection.
+- Prometheus to scrape metrics from services.
+- Grafana for visualizing metrics dashboards.
+- Zipkin for distributed tracing to analyze request flows across services.
+
+Each service exposes a /actuator/prometheus endpoint for metrics and reports tracing data to Zipkin.
+
+The infrastructure is orchestrated via Docker Compose, which includes Kafka, Zookeeper, Zipkin, Prometheus, and Grafana containers, along with the microservices.
+
+## 🤝 API Documentation with Swagger / OpenAPI
+
+The project includes Swagger UI for interactive API documentation and easier testing.
+
+- The OpenAPI spec is auto-generated using springdoc-openapi.
+- Swagger UI is accessible via:
+http://localhost:{port}/swagger-ui.html
+(replace {port} with the service port, e.g., 8080 for order-service)
+- Provides clear, interactive API documentation for all REST endpoints, request bodies, and responses.
