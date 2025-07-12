@@ -10,13 +10,16 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import com.example.order.service.OrderService;
 
 @SpringBootTest
+@TestPropertySource(properties = {
+	    "spring.kafka.bootstrap-servers=localhost:9092"
+	})
 public class OrderServiceIntegrationTest {
 
     // Usa a imagem Kafka oficial Confluent 7.4.3
